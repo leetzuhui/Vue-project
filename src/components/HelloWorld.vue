@@ -1,7 +1,7 @@
 <template>
   <div v-if="show">
-    <div class="modal title" ref="title">From Modal</div>
-    <div class="modal msg" ref="msg">{{ msg }}</div>
+    <div class="modal title" ref="title">Normal message</div>
+    <div class="modal msg" ref="msg">Message from Modal: {{ msg }}</div>
   </div>
   <button @click="clickHandler">Click Me to show what the ref is</button>
   <br />
@@ -10,19 +10,23 @@
   <button @click="show = !show">Toggle Show / Hide</button>
   <br />
   <div class="box-wrapper">
-    <div class="box" :class="{ active: (info[0].text != '') }" @mouseover.self="EventHandler">
-      Mouseover (Enter)
+    <div class="box" :class="{ active: info[0].active }" @mouseenter.self="EventHandler"
+      @mousedown.left="LeftClickToReset(0, $event)">
+      MouseEnter
       <span class="info" v-if="info[0].text != ''">{{ info[0].text }}</span>
     </div>
-    <div class="box" :class="{ active: (info[1].text != '') }" @mouseleave.self="EventHandler">
+    <div class="box" :class="{ active: info[1].active }" @mouseleave.self="EventHandler"
+      @mousedown.left="LeftClickToReset(1)">
       MouseLeave
       <span class="info" v-if="info[1].text != ''">{{ info[1].text }}</span>
     </div>
-    <div class="box" :class="{ active: (info[2].text != '') }" @dblclick.self="EventHandler">
+    <div class="box" :class="{ active: info[2].active }" @dblclick.self="EventHandler"
+      @mousedown.left="LeftClickToReset(2)">
       DoubleClick
       <span class="info" v-if="info[2].text != ''">{{ info[2].text }}</span>
     </div>
-    <div class="box" :class="{ active: (info[3].text != '') }" @mousemove.self="EventHandler">
+    <div class="box" :class="{ active: info[3].active }" @mousemove.self="EventMouseMoveHandler"
+      @mousedown.left="LeftClickToReset(3)">
       MouseMove - See the X, Y value
       <span class="info" v-if="info[3].text != ''">{{ info[3].text }}</span>
     </div>
@@ -42,15 +46,15 @@
 export default {
   name: "HelloWorld",
   props: {
-    msg: String,
+    msg: String
   },
   data() {
     return {
       show: true,
-      info: [{ text: '', key: 0 },
-      { text: '', key: 0 },
-      { text: '', key: 0 },
-      { text: '' }],
+      info: [{ text: '', key: 0, active: false },
+      { text: '', key: 0, active: false },
+      { text: '', key: 0, active: false },
+      { text: '', active: false }],
       books: [
         { name: 'Divine Songs', year: 1715, author: 'Isaac Watts', key: 1 },
         { name: 'The Gigantick History of the Two Famous Giants', year: 1730, author: 'Thomas Boreman', key: 2 },
@@ -70,22 +74,30 @@ export default {
         console.log(this.$refs.msg);
     },
     EventHandler(event) {
-      if (event.type == 'mouseover') {
+      if (event.type == 'mouseenter') {
         this.info[0].key++
-        this.info[0].text = 'mouseover ' + (this.info[0].key == 1 ? '' : this.info[0].key)
+        this.info[0].active = true
+        this.info[0].text = 'mouseenter ' + (this.info[0].key == 1 ? '' : this.info[0].key)
       }
       else if (event.type == 'mouseleave') {
         this.info[1].key++
+        this.info[1].active = true
         this.info[1].text = 'mouseleave ' + (this.info[1].key == 1 ? '' : this.info[1].key)
       }
       else if (event.type == 'dblclick') {
         this.info[2].key++
+        this.info[2].active = true
         this.info[2].text = 'dblclick ' + (this.info[2].key == 1 ? '' : this.info[2].key)
       }
-      else if (event.type == 'mousemove') {
-        this.info[3].text = 'offsetX: ' + event.offsetX + ', offsetY: ' + event.offsetY;
-      }
     },
+    EventMouseMoveHandler(event) {
+      this.info[3].active = true
+      this.info[3].text = 'offsetX: ' + event.offsetX + ', offsetY: ' + event.offsetY
+    },
+    // click left button to remove the 'active' class
+    LeftClickToReset(index) {
+      this.info[index].active = false
+    }
   },
 };
 </script>
@@ -115,6 +127,7 @@ export default {
     border-radius: 30px;
     text-align: center;
     font-size: 30px;
+    transition: all 1s cubic-bezier(0.23, 1, 0.320, 1);
 
     .info {
       display: block;
@@ -125,6 +138,7 @@ export default {
   }
 
   .active {
+    transition: all 1s cubic-bezier(0.23, 1, 0.320, 1);
     background-color: crimson;
   }
 }
