@@ -103,7 +103,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 .modal {
   font-size: 25px;
   color: #25c141;
@@ -145,7 +145,10 @@ export default {
 
 .book-list-wrapper {
   text-align: left;
-  font-size: 2.0rem;
+
+  h2 {
+    font-size: 2.5rem;
+  }
 
   .book-list {
     font-size: 1.2rem;

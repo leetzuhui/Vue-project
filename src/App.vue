@@ -2,15 +2,44 @@
   <img alt="Vue logo" src="./assets/logo.png" />
   <h1 class="title">Created by TZUHUI</h1>
   <HelloWorld msg="Welcome to Your Vue.js App" />
+  <Slot>
+    <div class="default-slot">
+      This is the default slot section. <br />
+      No extra slot name needed.
+    </div>
+    <template v-slot:slot-1>
+      <div class="slot-1">
+        This is the slot-1 section. <br />
+        <code>v-slot: slot-1</code> in the Base component is indicated to show it's a named slot. <br />
+        <code>name="slot-1"</code> in the Derived component means that only named slot defined in Base component can be
+        replaced here.
+      </div>
+    </template>
+    <template v-slot:slot-2>
+      <div class="slot-2">
+        This is the slot-2 section. <br />
+        <code>v-slot: slot-2</code> in the Base component is indicated to show it's a named slot. <br />
+        <code>name="slot-2"</code> in the Derived component means that only named slot defined in Base component can be
+        replaced here.
+      </div>
+    </template>
+    <template v-slot:slotCom>
+      <SlotCom />
+    </template>
+  </Slot>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import HelloWorld from "./components/HelloWorld";
+import Slot from './components/Slot'
+import SlotCom from './components/SlotCom'
 
 export default {
   name: "App",
   components: {
     HelloWorld,
+    Slot,
+    SlotCom
   },
   methods: {
     UnusedHandler() { },
