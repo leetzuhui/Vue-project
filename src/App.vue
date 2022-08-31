@@ -82,7 +82,7 @@ export default {
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2rem #646cffaa);
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 
 #app {
