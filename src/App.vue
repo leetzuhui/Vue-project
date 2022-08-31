@@ -1,5 +1,5 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <img class="logo" alt="Vue logo" src="./assets/logo.svg" />
   <h1 class="title">Created by TZUHUI</h1>
   <HelloWorld msg="Welcome to Your Vue.js App" />
   <Slot>
@@ -75,6 +75,16 @@ export default {
 </script>
 
 <style lang="scss">
+.logo {
+  height: 6rem;
+  padding: 1.5rem;
+  will-change: filter;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2rem #646cffaa);
+}
+
 #app {
   text-align: center;
   margin-top: 60px;
